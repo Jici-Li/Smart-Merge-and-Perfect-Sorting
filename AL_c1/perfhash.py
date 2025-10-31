@@ -37,10 +37,22 @@ def miniHash(m,j):
 def buildHashTable(L,r,h):
     """Arrange items of L into r buckets using hash fun h with range 0,..,r-1.
     Returns the list of buckets."""
+    buckets=[]
+    for i in range(r):
+        buckets.append([])
+    for item in L:
+        hash_value=h(item)
+        bucket_index=hash_value%r 
+        
+        buckets[bucket_index].append(item)
+    
+    return buckets
 
 
 def buildModHashTable(L,p):
     """Apply buildHashTable to the modHash function for p."""
+    h=lambda x:modHash(x,p)
+    return buildHashTable(L,p,h)
 
 
 # TODO: Task 2. Computing mini-hash indices for a given list L of buckets,
@@ -49,7 +61,28 @@ def buildModHashTable(L,p):
 def computeMiniHashIndices(L,m):
     """Compute suitable mini-hash indices for a given list L of buckets,
     where mini-hash funs have range 0,..,m-1"""
+    indexed=list(enumerate(L))
+    indexed.sort(key=lambda x:len(x[1]),reverse=True)
+    T = [False]*m     
+    R = [0]*len(L)    
 
+    for (i,bucket) in indexed:
+        if len(bucket)==0:
+            R[i]=0
+            continue
+
+        j=0
+        while True:
+            h=miniHash(m,j)
+            slots=[h(x) for x in bucket]
+
+            if len(set(slots))==len(slots) and all(not T[s] for s in slots):
+                R[i]=j
+                for s in slots:
+                    T[s]=True
+                break
+            j+=1
+    return R
 
 # Provided code for putting all this together.
 
@@ -96,7 +129,6 @@ class Hasher:
         h = miniHash(self.m,self.hashChoices[i])
         return h(key)
 
-
 class HashDict:
     """Implementation of dictionaries via perfect hashing"""
 
@@ -119,14 +151,24 @@ class HashDict:
         self.H = Hasher(keys,oload,load)
         self.T = HashDict.buildFlatTable(keyvals,self.H)
 
-
 # TODO: Task 3: lookup and setValue methods.
 
     def lookup(self,k):
         """Return value associated with k, or None if k not present"""
+        i=self.H.hash(k)
+        kv = self.T[i]
+        if kv is None or kv[0]!=k:
+           return None
+        return kv[1]
 
     def setValue(self,k,v):
         """If k is present, update its value to v. Return whether k present."""
+        i=self.H.hash(k)
+        kv=self.T[i]
+        if kv is None or kv[0]!=k:
+          return False
+        kv[1]=v
+        return True
 
 
 # TODO: Task 4: Towards an insert method
