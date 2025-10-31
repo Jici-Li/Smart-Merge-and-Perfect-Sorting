@@ -93,20 +93,20 @@ def allSortedRuns(A):
         while j<n and comp(A[j-1],A[j]):
             j+=1
         if j-i>=sortedRunThreshold:
-            Q.add((i,j))
+            Q.push((i,j))
         i=j
     return Q
 
 def isWithinRun(Q,i,j):
     """Test whether A[i],...,A[j-1] is sorted according to info in Q."""
-    while not Q.isEmpty():
-        (a,b)=Q.peek()
-        if i<a:
+    current = Q.head
+    while current and current.value is not None:
+        a, b = current.value
+        if i < a:
             return False
-        elif a<=i and j<=b:
+        elif a <= i and j <= b:
             return True
-        else:
-            Q.remove()
+        current = current.next
     return False
 
 
