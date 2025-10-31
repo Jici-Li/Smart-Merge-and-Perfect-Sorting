@@ -26,15 +26,19 @@ sortedRunThreshold = 10
 
 def insertSort(A,m,n):
     """In-place Insert Sort on A[m],..,A[n-1]"""
-    while j >= m and not comp(A[j], key):
-          A[j+1] = A[j]
-          j -= 1
-    A[j+1] = key
+    if n<=m:
+        return
+    for i in range(m+1,n):
+        key=A[i]
+        j=i-1
+        while j>=m and not comp(A[j],key):
+            A[j+1]=A[j]
+            j-=1
+        A[j+1]=key
+
 
 def merge(C,D,m,p,n):
     """Merge C[m],...,C[p-1] and C[p],...,C[n-1] into D[m],...,D[n-1]"""
-    if comp is None:
-        comp=lambda a,b:a<b 
     i,j,k=m,p,m
     while i<p and j<n:
         if comp(C[i],C[j]):
@@ -45,13 +49,9 @@ def merge(C,D,m,p,n):
             j+=1
         k+=1
     while i<p:
-        D[k]=C[i]
-        i+=1
-        k+=1
+        D[k]=C[i];i+=1;k+=1
     while j<n:
-        D[k]=C[j]
-        j+=1
-        k+=1
+        D[k]=C[j];j+=1;k+=1
 
 def greenMergeSort(A,B,m,n):
     """Merge Sort A[m],...,A[n-1] using just B[m],...,B[n-1] as workspace.
@@ -75,7 +75,7 @@ def greenMergeSort(A,B,m,n):
 # Provided code:
 
 def greenMergeSortAll(A):
-    B = [None] * len(A)
+    B = [None]*len(A)
     greenMergeSort(A,B,0,len(A))
     return A
 
@@ -109,37 +109,6 @@ def isWithinRun(Q,i,j):
             Q.remove()
     return False
 
-def insertSort(A,m,n):
-    for pos in range(m+1,n):
-        current=A[pos]
-        j=pos-1
-        while j>=m and A[j]>current:
-            A[j+1]=A[j]
-            j-=1
-        A[j+1]=current
-
-def merge(C,D,m,p,n):
-    i,j,k=m,p,m
-    
-    while i<p and j<n:
-        if C[i]<=C[j]:
-            D[k]=C[i]
-            i+=1
-        else:
-            D[k]=C[j]
-            j+=1
-        k+=1
-    
-    while i<p:
-        D[k]=C[i]
-        i+=1
-        k+=1
-
-    while j<n:
-        D[k]=C[j]
-        j+=1
-        k+=1
-
 
 def smartMergeSort(A,B,Q,m,n):
     """Improvement on greenMergeSort taking advantage of sorted runs."""
@@ -170,7 +139,7 @@ def smartMergeSort(A,B,Q,m,n):
 # Provided code:
 
 def smartMergeSortAll(A):
-    B = [None] * len(A)
+    B = [None]*len(A)
     Q = allSortedRuns(A)
     smartMergeSort(A,B,Q,0,len(A))
     return A
