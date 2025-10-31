@@ -99,14 +99,14 @@ def allSortedRuns(A):
 
 def isWithinRun(Q,i,j):
     """Test whether A[i],...,A[j-1] is sorted according to info in Q."""
-    current = Q.head
+    current=Q.head
     while current and current.value is not None:
-        a, b = current.value
-        if i < a:
+        a, b=current.value
+        if i<a:
             return False
-        elif a <= i and j <= b:
+        elif a<=i and j<=b:
             return True
-        current = current.next
+        current=current.next
     return False
 
 
