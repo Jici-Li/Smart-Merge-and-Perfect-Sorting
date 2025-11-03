@@ -148,18 +148,20 @@ def smartMergeSortAll(A):
 # TODO: Task 3. Asymptotic analysis of smartMergeSortAll
 
 # 1. Justification of O(n lg n) bound.
-#
-#
-#
+#As the smartmergesortall function devide the array into half and half the each half into half again unitl only one elelment included in each subarray.
+#the number of levels of division is log n with the base:2
+#also,there are n levels as it has "half" the array n times.
+#therfore,the total time complexity is O(n*log n).
 #
 # (continue as necessary)
 
 # 2. Runtime analysis for nearly-sorted inputs.
-#
-#
+#as the input has been sorted, the program will only go through the array once
+#thus, the runtime is 0(n).
 #
 #
 # (continue as necessary)
+
 
 
 # Functions added for automarking purposes - please don't touch these!
@@ -181,3 +183,4 @@ def set_insertSort(f):
     insertSort = f
 
 # End of file
+
