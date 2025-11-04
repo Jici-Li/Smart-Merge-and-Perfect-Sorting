@@ -37,15 +37,10 @@ def miniHash(m,j):
 def buildHashTable(L,r,h):
     """Arrange items of L into r buckets using hash fun h with range 0,..,r-1.
     Returns the list of buckets."""
-    buckets=[]
-    for i in range(r):
-        buckets.append([])
+    buckets=[[] for_in range(r)]
     for item in L:
-        hash_value=h(item)
-        bucket_index=hash_value%r 
-        
+        bucket_index=h(item)
         buckets[bucket_index].append(item)
-    
     return buckets
 
 
@@ -201,3 +196,4 @@ def wordlist(filename):
 
 
 ## End of file
+
