@@ -99,14 +99,23 @@ def allSortedRuns(A):
 
 def isWithinRun(Q,i,j):
     """Test whether A[i],...,A[j-1] is sorted according to info in Q."""
-    current=Q.head
-    while current and current.value is not None:
-        a, b=current.value
-        if i<a:
-            return False
-        elif a<=i and j<=b:
+    tempQ=PeekQueue()
+
+    originalQ = PeekQueue()
+    while Q.peek() is not None:
+        item=Q.pop()
+        tempQ.push(item)
+        originalQ.push(item)
+
+    while originalQ.peek() is not None:
+        Q.push(originalQ.pop())
+
+    while tempQ.peek() is not None:
+        a,b=tempQ.pop()
+        if a<=i and j<=b:
             return True
-        current=current.next
+        if a>i:
+            break
     return False
 
 
@@ -183,4 +192,5 @@ def set_insertSort(f):
     insertSort = f
 
 # End of file
+
 
